@@ -1,9 +1,10 @@
 .nav{
     grid-area: n;
     background-color: red;
+    padding: 10px;
 }
 
-.nav .active a{
+.nav a.active{
     color: yellow;
 }
 

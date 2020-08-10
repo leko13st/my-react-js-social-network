@@ -1,8 +1,29 @@
-.header{
-    grid-area: h;
-    background-color: green;
+.dialogs{
+    padding: 10px;
+    display: grid;
+
+    grid-template-areas: "dialogs messages";
+    grid-template-columns: 3fr 10fr;
+    grid-gap: 5px;
 }
 
-.header img{
-    width: 40px;
+.dialogsItem{
+    grid-area: dialogs;
+}
+
+.dialogName{
+    padding-top: 10px;
+}
+
+.dialogName a{
+    text-decoration: none;
+    color: white;
+}
+
+.messages{
+    grid-area: messages;
+}
+
+.messages .message{
+
 }
