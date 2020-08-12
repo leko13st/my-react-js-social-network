@@ -1,20 +1,25 @@
 import React from 'react';
 import Post from "./Post/Post";
 
-let PostsData = [
-    {id: "1", text: "Hello, I'm Stas. It's my first post on this site!"},
-    {id: "2", text: "Hey, wthat's up?"},
-    {id: "3", text: "Hi, there is just a post: good luck!"}
-]
+const MyPosts = (props) => {
+    let PostsItems = props.postData.map(post => <Post id={post.id} text={post.text}/>)
 
-let PostsItems = PostsData.map(post => <Post id={post.id} text={post.text}/>)
+    let inputPost = React.createRef();
+    let addPost = () => {
+        debugger;   
+        props.addNewPost();
+    }
 
-const MyPosts = () => {
+    let onPostChange = () => {
+        let text = inputPost.current.value;
+        props.updateNewPostText(text);
+    }
+
     return (
         <div>
             <form>
-                <textarea></textarea>
-                <input type="button" value="Добавить пост"></input>
+                <textarea onChange={onPostChange} ref={inputPost} value={props.newPostText} />
+                <input type="button" value="Добавить пост" onClick={addPost}></input>
             </form>
             My Posts
            {PostsItems}
