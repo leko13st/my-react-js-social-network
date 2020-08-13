@@ -1,6 +1,6 @@
 import React from 'react';
 import s from './../Messages.module.css';
-import {NavLink} from "react-router-dom"
+import {addMessageActionCreator, updateNewMessageActionCreator} from '../../../State/state'
 
 const Message = (props) => {
     return <div className={s.message}>{props.message}</div>
@@ -11,14 +11,21 @@ const MessageItem = (props) => {
 
     let inputMessage = React.createRef();
     let addMessage = () => {
-        alert(inputMessage.current.value);
+        props.dispatch(addMessageActionCreator());
+    }
+
+    let updateMessage = () => {
+        let text = inputMessage.current.value;
+        props.dispatch(updateNewMessageActionCreator(text));
     }
 
     return(
         <div className={s.messages}>
             {messageItems}
-            <textarea ref={inputMessage}></textarea>
-            <button onClick={addMessage}>Добавить сообщение</button>
+            <form>
+                <textarea onChange={updateMessage} ref={inputMessage} value={props.newMessage}></textarea>
+                <input type="button" value="Добавить сообщение" onClick={addMessage}></input>
+            </form>
         </div>
     )
 }

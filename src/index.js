@@ -1,20 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
-import state, {addNewPost, updateNewPostText} from './State/state';
+import './index.css';
 
+import App from './App';
+import store from './State/state';
+
+//функция перерисовки UI
 let RerenderApp = (state) => {
   ReactDOM.render(
     <React.StrictMode>
-      <App state={state} addNewPost={addNewPost} updateNewPostText={updateNewPostText}/>
+      <App state={store.getState()} 
+           dispatch={store.dispatch.bind(store)}
+           />
     </React.StrictMode>,
     document.getElementById('root')
   );
 }
 
-RerenderApp(state);
+//Изначальная отрисовка UI
+RerenderApp(store.getState());
+//Отправка функции перерисовки в state => нет цикличной зависимости с import/export (класс!)
+store.subscriber(RerenderApp)
 
 export default RerenderApp;
 

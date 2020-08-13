@@ -17,10 +17,12 @@ function App(props) {
         <Navbar />
         <div className="app-wrapper-content">
           <Route path="/profile" render={() => <Profile profilePage={props.state.profilePage} 
-                                                        addNewPost={props.addNewPost}
-                                                        updateNewPostText={props.updateNewPostText} />} />
+                                                        dispatch={props.dispatch} 
+                                                        />} />
           <Route path="/news" render={() => <News />} />
-          <Route path="/messages" render={() => <Messages state={props.state.messagePage}/>} />
+          <Route path="/messages" render={() => <Messages messagePage={props.state.messagePage}
+                                                          dispatch={props.dispatch}
+                                                          />} />
           <Route path="/music" render={() => <Music />} />
           <Route path="/settings" render={() => <Settings />} />
         </div>

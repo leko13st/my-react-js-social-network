@@ -1,18 +1,18 @@
 import React from 'react';
 import Post from "./Post/Post";
+import {addPostActionCreator, updateNewPostTextActionCreator} from '../../../State/state'
 
 const MyPosts = (props) => {
     let PostsItems = props.postData.map(post => <Post id={post.id} text={post.text}/>)
 
     let inputPost = React.createRef();
     let addPost = () => {
-        debugger;   
-        props.addNewPost();
+        props.dispatch(addPostActionCreator());
     }
 
     let onPostChange = () => {
         let text = inputPost.current.value;
-        props.updateNewPostText(text);
+        props.dispatch(updateNewPostTextActionCreator(text));
     }
 
     return (
