@@ -1,6 +1,5 @@
 import React from 'react';
 import s from './../Messages.module.css';
-import {addMessageActionCreator, updateNewMessageActionCreator} from '../../../State/state'
 
 const Message = (props) => {
     return <div className={s.message}>{props.message}</div>
@@ -11,19 +10,21 @@ const MessageItem = (props) => {
 
     let inputMessage = React.createRef();
     let addMessage = () => {
-        props.dispatch(addMessageActionCreator());
+        props.addMessage();
     }
 
     let updateMessage = () => {
         let text = inputMessage.current.value;
-        props.dispatch(updateNewMessageActionCreator(text));
+        props.updateNewMessage(text);
     }
+
+    let newMessage = props.newMessage;
 
     return(
         <div className={s.messages}>
             {messageItems}
             <form>
-                <textarea onChange={updateMessage} ref={inputMessage} value={props.newMessage}></textarea>
+                <textarea onChange={updateMessage} ref={inputMessage} value={newMessage}></textarea>
                 <input type="button" value="Добавить сообщение" onClick={addMessage}></input>
             </form>
         </div>

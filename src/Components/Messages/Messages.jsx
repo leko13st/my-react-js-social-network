@@ -1,15 +1,13 @@
 import React from 'react';
 import s from './Messages.module.css';
-import DialogItem from './Dialog/Dialog';
-import MessageItem from './Message/Message'
+import DialogItem from './Dialog/DialogItem';
+import MessageItemContainer from './Message/MessageItemContainer'
 
 const Messages = (props) => {
     return(
         <div className={s.dialogs}>
-            <DialogItem dialogData={props.messagePage.dialogData}/>
-            <MessageItem messageData={props.messagePage.messageData}
-                         newMessage={props.messagePage.newMessage}
-                         dispatch={props.dispatch}/>
+            <DialogItem dialogData={props.store.getState().messagePage.dialogData}/>
+            <MessageItemContainer store={props.store}/>
         </div>
     )
 }

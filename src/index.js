@@ -4,15 +4,13 @@ import * as serviceWorker from './serviceWorker';
 import './index.css';
 
 import App from './App';
-import store from './State/state';
+import store from './Redux/redux-store';
 
 //функция перерисовки UI
 let RerenderApp = (state) => {
   ReactDOM.render(
     <React.StrictMode>
-      <App state={store.getState()} 
-           dispatch={store.dispatch.bind(store)}
-           />
+      <App store={store}/>
     </React.StrictMode>,
     document.getElementById('root')
   );
@@ -21,7 +19,10 @@ let RerenderApp = (state) => {
 //Изначальная отрисовка UI
 RerenderApp(store.getState());
 //Отправка функции перерисовки в state => нет цикличной зависимости с import/export (класс!)
-store.subscriber(RerenderApp)
+store.subscribe(() => {
+  let state = store.getState();
+  RerenderApp(state);
+});
 
 export default RerenderApp;
 
