@@ -5,12 +5,18 @@ import './index.css';
 
 import App from './App';
 import store from './Redux/redux-store';
+import {Provider} from './StoreContext';
+import { BrowserRouter } from 'react-router-dom';
 
 //функция перерисовки UI
 let RerenderApp = (state) => {
   ReactDOM.render(
     <React.StrictMode>
-      <App store={store}/>
+      <BrowserRouter>
+        <Provider store={store}>
+          <App store={store}/>
+        </Provider> 
+      </BrowserRouter>
     </React.StrictMode>,
     document.getElementById('root')
   );
