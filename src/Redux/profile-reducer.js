@@ -11,30 +11,31 @@ let initialState = {
 }
 
 const profileReducer = (state = initialState, action) => {
-
-    let stateCopy = {...state};
-    stateCopy.postData = [...state.postData];
-
     switch (action.type){
         case ADD_POST: {
-            stateCopy.postData.push(
-                {
-                    id: 10,
-                    text: stateCopy.newPostText,
-                }
-            );            
-            stateCopy.newPostText = '';
-            return stateCopy;
+            let newPost = {
+                id: 10,
+                text: state.newPostText,
+            }
+
+            return {
+                ...state,
+                postData: [...state.postData, newPost],
+                newPostText: ''
+            }
         }
         case UPDATE_NEW_POST_TEXT: {
-            stateCopy.newPostText = action.newText;
-            return stateCopy;
+            return {
+                ...state,
+                newPostText: action.newText
+            }
         }
         default:
             return state;
     }
 }
 
+//Вызов данных методов возвращает объект action с тем или иным значением type: ADD_POST, UPDATE_NEW_POST_TEXT и т.д.
 export const addPostActionCreator = () => ({type: ADD_POST});
 export const updateNewPostTextActionCreator = (text) => ({type: UPDATE_NEW_POST_TEXT, newText: text});
 

@@ -13,7 +13,7 @@ const Dialog = (props) => {
 }
 
 const DialogItem = (props) => {
-    let dialogItems = props.dialogData.map(person => <Dialog name={person.name} id={person.id}/>)
+    let dialogItems = props.dialogData.map(person => <Dialog name={person.name} id={person.id} key={person.id}/>)
     
     return(
         <div className={s.dialogsItems}>

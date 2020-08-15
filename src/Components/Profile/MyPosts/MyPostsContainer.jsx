@@ -1,7 +1,6 @@
 import React from 'react';
 import MyPosts from "./MyPosts";
-import {addPostActionCreator, updateNewPostTextActionCreator} from '../../../Redux/profile-reducer'
-import StoreContext from '../../../StoreContext';
+import {addPostActionCreator, updateNewPostTextActionCreator} from '../../../Redux/profile-reducer';
 import { connect } from 'react-redux';
 
 // const MyPostsContainer = (props) => {

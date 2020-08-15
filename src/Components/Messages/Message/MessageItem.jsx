@@ -6,7 +6,7 @@ const Message = (props) => {
 }
 
 const MessageItem = (props) => {
-    let messageItems = props.messageData.map(message => <Message id={message.id} message={message.text}/>)
+    let messageItems = props.messageData.map(message => <Message id={message.id} message={message.text} key={message.id}/>)
 
     let inputMessage = React.createRef();
     let addMessage = () => {

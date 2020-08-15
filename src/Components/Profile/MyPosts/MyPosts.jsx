@@ -2,7 +2,7 @@ import React from 'react';
 import Post from "./Post/Post";
 
 const MyPosts = (props) => {
-    let PostsItems = props.postData.map(post => <Post id={post.id} text={post.text}/>)
+    let PostsItems = props.postData.map(post => <Post id={post.id} key={post.id} text={post.text}/>)
 
     let inputPost = React.createRef();
     let addPost = () => {
