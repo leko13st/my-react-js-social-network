@@ -8,6 +8,8 @@ import Messages from './Components/Messages/Messages';
 import News from './Components/News/News';
 import Settings from './Components/Settings/Settings';
 import Music from './Components/Music/Music';
+import Users from './Components/Users/Users';
+import UsersContainer from './Components/Users/UsersContainer';
 
 function App(props) {
   return (
@@ -20,6 +22,7 @@ function App(props) {
         <Route path="/messages" render={() => <Messages store={props.store}/>} />
         <Route path="/music" render={() => <Music />} />
         <Route path="/settings" render={() => <Settings />} />
+        <Route path="/users" render={() => <UsersContainer />} />
       </div>
     </div>
   );
