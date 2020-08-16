@@ -11,13 +11,11 @@ import {Provider} from "react-redux"
 //функция перерисовки UI
 //let RerenderApp = (state) => {
   ReactDOM.render(
-    <React.StrictMode>
       <BrowserRouter>
         <Provider store={store}>
           <App store={store}/>
         </Provider> 
-      </BrowserRouter>
-    </React.StrictMode>,
+      </BrowserRouter>,
     document.getElementById('root')
   );
 //}

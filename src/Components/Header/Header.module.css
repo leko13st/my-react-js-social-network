@@ -1,9 +1,19 @@
 .header{
     grid-area: h;
-    background-color: #666;
+    background-color: rgba(0, 0, 210, 0.5);
     border: 4px solid #08f;
+    border-radius: 20px;
 }
 
 .header img{
     width: 40px;
+    padding-top: 5px;
+    padding-left: 20px
+}
+
+.headerSite{
+    color: black;
+    display: inline;
+    margin-left: 370px;
+    font-weight: bold;
 }

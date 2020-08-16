@@ -1,6 +1,10 @@
+body{
+  background: url('https://lh3.googleusercontent.com/proxy/Dv6u7JwpLocEEF35ORFTR5d0ehg-M7PcEgIjeYe2NnH7WeF8gL_UH1-mksfV8bbpGy8iQxqBreA4L5UWkWq8odFmDBbpOi-DDYu8_M3W3UJ-IEmrP5C_KSpTZ_TdUO5EscNSAKhXa9s14KK5Q3fmQHwHdOyh6nVHa7qoIGidNWU');
+}
+
 .app-wrapper{
   display: grid;
-  width: 1200px;
+  width: 900px;
   margin: 0 auto;
   color: white;
 
@@ -8,14 +12,15 @@
   "h h"
   "n c";
   grid-template-rows: 60px 1fr;
-  grid-template-columns: 2fr 10fr;
+  grid-template-columns: 1fr 10fr;
   grid-gap: 10px;
 }
 
 .app-wrapper-content{
   grid-area: c;
-  background-color: #44f;  
+  background-color: rgba(0, 0, 210, 0.5);
   border: 4px solid #08f;
+  border-radius: 20px;
 }
 
 textarea{

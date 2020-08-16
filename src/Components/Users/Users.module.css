@@ -1,0 +1,24 @@
+.users{
+    padding: 10px;
+}
+
+.pages{
+    padding: 10px;
+    background-color: rgba(0, 0, 210, 0.25);
+    text-align: center;
+    height: 40px;
+    border: 3px solid #08f;
+    border-radius: 20px;
+    margin: 3px;
+}
+
+.pages span{
+    padding: 3px;
+    font-size: 150%;
+    cursor: pointer;
+}
+
+.currentPage{
+    color: yellow;
+    font-weight: bold;
+}
