@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { followToogleAC, setUsersAC, setCurrentPageAC, setTotalUsersCountAC } from "../../Redux/users-reducer";
-import Users from "./Users";
+import UsersAPIContainer from "./UsersAPIContainer";
 
 const mapStateToProps = (state) => {
     return {
@@ -13,7 +13,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        follow_toogle: (userId) => {
+        followToogle: (userId) => {
             dispatch(followToogleAC(userId));
         },
         setUsers: (users) => {
@@ -28,4 +28,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Users);
+export default connect(mapStateToProps, mapDispatchToProps)(UsersAPIContainer);
