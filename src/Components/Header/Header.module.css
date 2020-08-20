@@ -17,3 +17,12 @@
     margin-left: 370px;
     font-weight: bold;
 }
+
+.loginBlock{
+    float: right;
+    color: white;
+}
+
+.loginBlock a{    
+    color: white;
+}

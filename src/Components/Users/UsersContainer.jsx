@@ -1,9 +1,8 @@
 import React from 'react';
 import * as axios from 'axios';
 import { connect } from "react-redux";
-import { followToogleAC, setUsersAC, setCurrentPageAC, setTotalUsersCountAC, toggleIsFetchingAC } from "../../Redux/users-reducer";
+import { followToggleAC, setUsersAC, setCurrentPageAC, setTotalUsersCountAC, toggleIsFetchingAC } from "../../Redux/users-reducer";
 import Users from "./Users";
-import preloader from "./../../assets/images/preloader.gif"
 import Preloader from '../common/Preloader/Preloader';
 
 class UsersContainer extends React.Component{
@@ -17,7 +16,9 @@ class UsersContainer extends React.Component{
 
     getUsersRequest = (currentPage) => {
         this.props.toggleIsFetching(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${this.props.pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${this.props.pageSize}`, {
+            withCredentials: true
+        })
             .then((response) => {
                 this.props.toggleIsFetching(false);
                 this.props.setUsers(response.data.items);
@@ -31,7 +32,40 @@ class UsersContainer extends React.Component{
     }
 
     followToogle = (userId) => {
-        this.props.followToogle(userId);
+        axios.get('https://social-network.samuraijs.com/api/1.0/follow/' + userId, {
+            withCredentials: true
+        })
+        .then((response) => {
+            if (!response.data){
+                axios.post('https://social-network.samuraijs.com/api/1.0/follow/' + userId, null, {
+                    withCredentials: true,
+                    headers: {
+                        "API-KEY": "470d5265-9930-42af-9165-b27ca47b6e0e"
+                    }
+                })
+                .then((response) => {
+                    debugger
+                    if(response.data.resultCode === 0)
+                        this.props.followToogle(userId);
+                })
+            }
+            else{
+                axios.delete('https://social-network.samuraijs.com/api/1.0/follow/' + userId, {
+                    withCredentials: true,
+                    headers: {
+                        "API-KEY": "470d5265-9930-42af-9165-b27ca47b6e0e"
+                    }
+                })
+                .then((response) => {
+                    debugger
+                    if(response.data.resultCode === 0)
+                        this.props.followToogle(userId);
+                })
+            }
+        })
+
+        
+        
     }
 
     render() 
@@ -60,28 +94,8 @@ const mapStateToProps = (state) => {
     }
 }
 
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         followToogle: (userId) => {
-//             dispatch(followToogleAC(userId));
-//         },
-//         setUsers: (users) => {
-//             dispatch(setUsersAC(users));
-//         },
-//         setCurrentPage: (pageId) => {
-//             dispatch(setCurrentPageAC(pageId));
-//         },
-//         setTotalUsersCount: (count) => {
-//             dispatch(setTotalUsersCountAC(count));
-//         },
-//         toggleIsFetching: (isFetching) => {
-//             dispatch(toggleIsFetchingAC(isFetching));
-//         }
-//     }
-// }
-
 const mapDispatchToProps = {    
-        followToogle:followToogleAC,
+        followToogle:followToggleAC,
         setUsers: setUsersAC,
         setCurrentPage: setCurrentPageAC,
         setTotalUsersCount: setTotalUsersCountAC,

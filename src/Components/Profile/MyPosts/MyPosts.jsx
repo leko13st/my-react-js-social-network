@@ -15,7 +15,7 @@ const MyPosts = (props) => {
     }
 
     let newPostText = props.newPostText;
-
+    
     return (
         <div>
             <form>
