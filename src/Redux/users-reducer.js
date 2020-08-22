@@ -1,3 +1,5 @@
+import { userAPI, followAPI } from "../api/api";
+
 const FOLLOW_TOGGLE = 'FOLLOW_TOGGLE';
 const SET_USERS = 'SET_USERS';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
@@ -70,5 +72,39 @@ export const setCurrentPageAC = (pageId) => ({type: SET_CURRENT_PAGE, pageId});
 export const setTotalUsersCountAC = (usersCount) => ({type: SET_TOTAL_USERS_COUNT, usersCount});
 export const toggleIsFetchingAC = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching});
 export const isFollowChangingAC = (isFetching, userId) => ({type: IS_FOLLOW_CHANGING, isFetching, userId});
+
+export const getUsersThunkCreator = (currentPage, pageSize) => {
+    return (dispatch) => {
+        dispatch(toggleIsFetchingAC(true))
+
+        userAPI.getUsers(currentPage, pageSize).then(data => {
+            dispatch(toggleIsFetchingAC(false));
+            dispatch(setUsersAC(data.items));
+            dispatch(setTotalUsersCountAC(data.totalCount));
+        })
+    }
+}
+
+export const followToggleThunkCreator = (userId) => {
+    return (dispatch) => {
+        dispatch(isFollowChangingAC(true, userId));
+        followAPI.getCheckingFollowed(userId).then(data => {
+            if (!data){
+                followAPI.postFollow(userId).then(data => {
+                    if(data.resultCode === 0)
+                    dispatch(followToggleAC(userId));
+                    dispatch(isFollowChangingAC(false, userId));
+                })
+            }
+            else{
+                followAPI.deleteFollow(userId).then(data => {
+                    if(data.resultCode === 0)
+                    dispatch(followToggleAC(userId));
+                    dispatch(isFollowChangingAC(false, userId));
+                })
+            }
+        })
+    }
+}
 
 export default usersReducer;

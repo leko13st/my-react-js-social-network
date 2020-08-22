@@ -7,7 +7,7 @@ const Messages = (props) => {
     return(
         <div className={s.dialogs}>
             <DialogItem dialogData={props.store.getState().messagePage.dialogData}/>
-            <MessageItemContainer store={props.store}/>
+            <MessageItemContainer/>
         </div>
     )
 }

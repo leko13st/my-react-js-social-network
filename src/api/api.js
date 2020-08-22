@@ -32,7 +32,7 @@ export const followAPI = {
 
 export const authAPI = {
     authUser() {
-        return instance.delete('auth/me')
+        return instance.get('auth/me')
                 .then(response => response.data)
     }
 }

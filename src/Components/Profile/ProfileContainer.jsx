@@ -3,7 +3,9 @@ import Profile from './Profile';
 import * as axios from 'axios';
 import { connect } from 'react-redux';
 import { setUserProfileAC } from '../../Redux/profile-reducer';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
+import withAuthRedirect from '../../hoc/withAuthRedirect';
+import { compose } from 'redux';
 
 class ProfileContainer extends React.Component{
 
@@ -31,6 +33,10 @@ const mapDispatchToProps = {
     setUserProfile: setUserProfileAC
 }
 
-let WithUrlDataContainerComponent = withRouter(ProfileContainer);
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    withRouter,
+    //withAuthRedirect
+)(ProfileContainer);
 
-export default connect(mapStateToProps, mapDispatchToProps)(WithUrlDataContainerComponent);
+compose()

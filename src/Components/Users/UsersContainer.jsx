@@ -1,50 +1,24 @@
 import React from 'react';
 import { connect } from "react-redux";
-import { followToggleAC, setUsersAC, setCurrentPageAC, setTotalUsersCountAC, toggleIsFetchingAC, isFollowChangingAC } from "../../Redux/users-reducer";
+import {getUsersThunkCreator, followToggleThunkCreator, setCurrentPageAC } from "../../Redux/users-reducer";
 import Users from "./Users";
 import Preloader from '../common/Preloader/Preloader';
-import { followAPI, userAPI } from '../../api/api';
+import withAuthRedirect from '../../hoc/withAuthRedirect';
+import { compose } from 'redux';
 
 class UsersContainer extends React.Component{
-    constructor(props){
-        super(props);
-    }
-
+    
     componentWillMount(){
-        this.getUsersRequest(this.props.currentPage);
-    }
-
-    getUsersRequest = (currentPage) => {
-        userAPI.getUsers(currentPage, this.props.pageSize).then(data => {
-            this.props.toggleIsFetching(false);
-            this.props.setUsers(data.items);
-            this.props.setTotalUsersCount(data.totalCount);
-        })
+        this.props.getUsers(this.props.currentPage, this.props.pageSize);
     }
 
     changePage = (pageId) => {
         this.props.setCurrentPage(pageId);
-        this.getUsersRequest(pageId);
+        this.props.getUsers(pageId, this.props.pageSize);
     }
 
     followToogle = (userId) => {
-        this.props.isFollowChanging(true, userId);
-        followAPI.getCheckingFollowed(userId).then(data => {
-            if (!data){
-                followAPI.postFollow(userId).then(data => {
-                    if(data.resultCode === 0)
-                        this.props.followToogle(userId);
-                    this.props.isFollowChanging(false, userId);
-                })
-            }
-            else{
-                followAPI.deleteFollow(userId).then(data => {
-                    if(data.resultCode === 0)
-                        this.props.followToogle(userId);
-                    this.props.isFollowChanging(false, userId);
-                })
-            }
-        })
+        this.props.followToogle(userId);
     }
 
     render() 
@@ -75,13 +49,19 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = {    
-        followToogle:followToggleAC,
-        setUsers: setUsersAC,
-        setCurrentPage: setCurrentPageAC,
-        setTotalUsersCount: setTotalUsersCountAC,
-        toggleIsFetching: toggleIsFetchingAC,
-        isFollowChanging: isFollowChangingAC    
+// const disp = (dispatch) => {
+//     return{
+//         func: (body) => dispatch(funcAC(body))
+//     }
+// }
+
+const mapDispatchToProps = {
+    setCurrentPage: setCurrentPageAC,
+    followToogle: followToggleThunkCreator,
+    getUsers: getUsersThunkCreator
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    withAuthRedirect
+)(UsersContainer);

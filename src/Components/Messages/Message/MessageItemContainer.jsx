@@ -3,33 +3,9 @@ import {addMessageActionCreator, updateNewMessageActionCreator} from '../../../R
 import MessageItem from './MessageItem';
 import StoreContext from '../../../StoreContext';
 import { connect } from 'react-redux';
-
-// const MessageItemContainer = (props) => {    
-//     return(
-//         <StoreContext.Consumer> 
-//         {
-//             (store) => {
-//                 let newMessage = store.getState().messagePage.newMessage;
-            
-//                 let messageData = store.getState().messagePage.messageData;
-            
-//                 let addMessage = () => {
-//                     store.dispatch(addMessageActionCreator());
-//                 }
-            
-//                 let updateNewMessage = (text) => {
-//                     store.dispatch(updateNewMessageActionCreator(text));
-//                 }
-                
-//                 return <MessageItem addMessage={addMessage} 
-//                                     updateNewMessage={updateNewMessage} 
-//                                     messageData={messageData} 
-//                                     newMessage={newMessage}/>            
-//             }
-//         }            
-//         </StoreContext.Consumer>
-//     )
-// }
+import { Redirect } from 'react-router-dom';
+import withAuthRedirect from '../../../hoc/withAuthRedirect';
+import { compose } from 'redux';
 
 let mapStateToProps = (state) => {
     return {
@@ -49,6 +25,7 @@ let mapDispatchToProps = (dispatch) => {
     }
 }
 
-let MessageItemContainer = connect(mapStateToProps, mapDispatchToProps)(MessageItem);
-
-export default MessageItemContainer;
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    withAuthRedirect
+)(MessageItem);
