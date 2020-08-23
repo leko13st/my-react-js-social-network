@@ -1,7 +1,6 @@
 import React from 'react';
 import {Route} from "react-router-dom"
 import './App.css';
-import Header from './Components/Header/Header';
 import Navbar from './Components/Navbar/Navbar';
 import Messages from './Components/Messages/Messages';
 import News from './Components/News/News';
