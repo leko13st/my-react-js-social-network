@@ -12,7 +12,7 @@ let initialState = {
         {id: 3, text: "Hi, there is just a post: good luck!"}
     ],
     newPostText: '',
-    status: null,
+    status: '',
     profile: null
 }
 
@@ -72,6 +72,7 @@ export const getUserProfileTC = (userId) => {
 }
 
 export const getStatusTC = (userId) => {
+    debugger
     return (dispatch) => {
         profileAPI.getStatus(userId)
         .then((response) => {

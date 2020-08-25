@@ -2,6 +2,9 @@ import React from 'react';
 
 class ProfileStatus extends React.Component {
     
+    //ф-я setState перерисовывает класс. компоненту, поэтому если вызвать функцию в render(), где есть setState, произойдёт зацикливание.
+    //Поэтому вызывать setState только с условием.
+
     state = {
         editMode: false,
         status: this.props.status
@@ -21,7 +24,21 @@ class ProfileStatus extends React.Component {
         })
     }
 
+    componentDidMount() {
+        this.setState({
+            status: this.props.status
+        })
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if (prevProps.status !== this.props.status)
+            this.setState({
+                status: this.props.status
+            })
+    }
+
     render(){
+        debugger
         return(
             <div>
                 {this.state.editMode
@@ -31,7 +48,7 @@ class ProfileStatus extends React.Component {
                 </div>
                 : 
                 <div>
-                    <span onDoubleClick={ () => {this.toggleEditMode(true)} }>{this.props.status}</span>
+                    <span onDoubleClick={ () => {this.toggleEditMode(true)} }>{this.state.status}</span>
                 </div>}
             </div>
         )
