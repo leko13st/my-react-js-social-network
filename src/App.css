@@ -1,5 +1,5 @@
 body{
-  background: url('D:\\MyDocs\\ReactProjects\\my-react-js-social-network\\src\\assets\\images\\bg.jpg');
+  background: url('./assets/images/bg.jpg');
 }
 
 .app-wrapper{

@@ -5,9 +5,13 @@ import { reduxForm, Field } from 'redux-form';
 const MyPosts = (props) => {
     let PostsItems = props.postData.map(post => <Post id={post.id} key={post.id} text={post.text}/>)
 
+    const addPost = (data) => {
+        props.addPost(data.postText);
+    }
+
     return (
         <div>
-            <MyPostsReduxForm {...props}/>
+            <MyPostsReduxForm onSubmit={addPost}/>
             My Posts
             {PostsItems}
         </div>
@@ -15,21 +19,10 @@ const MyPosts = (props) => {
 }
 
 const MyPostForm = (props) => {
-    let addPost = () => {
-        props.addPost();
-    }
-
-    let onPostChange = (e) => {
-        let text = e.currentTarget.value;
-        props.updateNewPostText(text);
-    }
-
-    let newPostText = props.newPostText;
-
     return(
         <form onSubmit={props.handleSubmit}>
-            <Field component={'textarea'} onChange={onPostChange} value={newPostText} name={'postText'} />
-            <button onClick={addPost}>Добавить пост</button>
+            <Field component={'textarea'} name={'postText'} />
+            <button>Добавить пост</button>
         </form>
     )
 }

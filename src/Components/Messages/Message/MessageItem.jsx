@@ -9,30 +9,23 @@ const Message = (props) => {
 const MessageItem = (props) => {
     let messageItems = props.messageData.map(message => <Message id={message.id} message={message.text} key={message.id}/>)
 
+    const addMessage = (data) => {
+        props.addMessage(data.messageText)
+    }
+
     return(
         <div className={s.messages}>
             {messageItems}
-            <MessageReduxForm {...props}/>
+            <MessageReduxForm onSubmit={addMessage}/>
         </div>
     )
 }
 
 const MessageForm = (props) => {
-    let addMessage = () => {
-        props.addMessage();
-    }
-
-    let updateMessage = (e) => {
-        let text = e.currentTarget.value;
-        props.updateNewMessage(text);
-    }
-
-    let newMessage = props.newMessage;
-
     return(
         <form onSubmit={props.handleSubmit}>
-            <Field component={'textarea'} onChange={updateMessage} value={newMessage} name={'messageText'} />
-            <button onClick={addMessage}>Добавить сообщение</button>
+            <Field component={'textarea'} name={'messageText'} />
+            <button>Добавить сообщение</button>
         </form>
     )
 }
