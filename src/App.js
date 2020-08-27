@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route} from "react-router-dom"
+import {Route, withRouter} from "react-router-dom"
 import './App.css';
 import Navbar from './Components/Navbar/Navbar';
 import Messages from './Components/Messages/Messages';
@@ -10,23 +10,44 @@ import UsersContainer from './Components/Users/UsersContainer';
 import ProfileContainer from './Components/Profile/ProfileContainer';
 import HeaderContainer from './Components/Header/HeaderContainer';
 import Login from './Components/Login/Login';
+import { connect } from 'react-redux';
+import { getAuthUserDataTC } from './Redux/auth-reducer';
+import { compose } from 'redux';
 
-function App(props) {
-  return (
-    <div className="app-wrapper">
+class App extends React.Component {
+
+  componentDidMount(){
+    this.props.getAuthUserData();
+  }
+
+  render(){
+    return (
+      <div className="app-wrapper">
       <HeaderContainer />
       <Navbar />
       <div className="app-wrapper-content">
-        <Route path="/profile/:userId?" render={() => <ProfileContainer store={props.store}/>} />
+        <Route path="/profile/:userId?" render={() => <ProfileContainer/>} />
         <Route path="/news" render={() => <News />} />
-        <Route path="/messages" render={() => <Messages store={props.store}/>} />
+        <Route path="/messages" render={() => <Messages/>} />
         <Route path="/music" render={() => <Music />} />
         <Route path="/settings" render={() => <Settings />} />
         <Route path="/users" render={() => <UsersContainer />} />
         <Route path="/login" render={() => <Login />} />
       </div>
     </div>
-  );
+    );
+  }
 }
 
-export default App;
+const mapStatetoProps = (state) => {
+  
+}
+
+const mapDispatchToProps = {
+  getAuthUserData: getAuthUserDataTC
+}
+
+export default compose(
+  connect(mapStatetoProps, mapDispatchToProps),
+  withRouter
+)(App)

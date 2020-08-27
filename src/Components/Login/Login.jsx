@@ -4,8 +4,9 @@ import { reduxForm, Field } from 'redux-form';
 import { required } from '../../util/validators/validators';
 import Element from '../../hoc/withValidateComponent';
 import { connect } from 'react-redux';
-import { logoutTC } from '../../Redux/auth-reducer';
+import { logoutTC, loginTC } from '../../Redux/auth-reducer';
 import { Redirect } from 'react-router-dom';
+import styles from './Login.module.css';
 
 const Login = (props) => {
     const onSubmit = (formData) => {
@@ -35,8 +36,12 @@ const LoginForm = (props) => {
                 <Field component={Input} validate={required} placeholder="Password" name="password" type="password"/>
             </div>
             <div>
-                <Field component={Input} validate={required} type={"checkbox"} name="rememberMe"/> Remember me?
+                <Field component={Input} type={"checkbox"} name="rememberMe"/> Remember me?
             </div>
+            {props.error && <div className={styles.error}>
+                 {props.error}
+            </div>}
+            
             <div>
                 <button>Login</button>
             </div>
@@ -55,6 +60,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
+    login: loginTC,
     logout: logoutTC
 }
 
