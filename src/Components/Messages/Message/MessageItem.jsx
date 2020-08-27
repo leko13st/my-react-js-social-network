@@ -1,6 +1,8 @@
 import React from 'react';
 import s from './../Messages.module.css';
 import { reduxForm, Field } from 'redux-form';
+import { required, maxLengthCreator } from '../../../util/validators/validators';
+import Element from '../../../hoc/withValidateComponent';
 
 const Message = (props) => {
     return <div className={s.message}>{props.message}</div>
@@ -21,10 +23,13 @@ const MessageItem = (props) => {
     )
 }
 
+const Textarea = Element('textarea');
+const maxLength = maxLengthCreator(300);
+
 const MessageForm = (props) => {
     return(
         <form onSubmit={props.handleSubmit}>
-            <Field component={'textarea'} name={'messageText'} />
+            <Field component={Textarea} name={'messageText'} validate={[required, maxLength]}/>
             <button>Добавить сообщение</button>
         </form>
     )
