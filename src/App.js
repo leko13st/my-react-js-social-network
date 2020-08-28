@@ -21,8 +21,7 @@ class App extends React.Component {
     this.props.initializeApp();
   }
 
-  render(){
-    debugger
+  render(){    
     if (!this.props.initialized)
       return <Preloader />
 
