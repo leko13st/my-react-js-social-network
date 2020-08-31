@@ -4,13 +4,13 @@ import { reduxForm, Field } from 'redux-form';
 import { required, maxLengthCreator } from '../../../util/validators/validators';
 import Element from '../../../hoc/withValidateComponent';
 
-const MyPosts = (props) => {
+const MyPosts = React.memo((props) => {
     let PostsItems = props.postData.map(post => <Post id={post.id} key={post.id} text={post.text}/>)
 
     const addPost = (data) => {
         props.addPost(data.postText);
     }
-
+    console.log('render posts');
     return (
         <div>
             <MyPostsReduxForm onSubmit={addPost}/>
@@ -18,7 +18,7 @@ const MyPosts = (props) => {
             {PostsItems}
         </div>
     )
-}
+})
 
 const Textarea = Element('textarea');
 const maxLength10 = maxLengthCreator(10);
