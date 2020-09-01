@@ -1,19 +1,19 @@
 import React from 'react';
-import { reduxForm, Field } from 'redux-form';
-//import { Input } from '../common/Preloader/FormsControls/FormsControl';
+import { reduxForm } from 'redux-form';
 import { required } from '../../util/validators/validators';
 import Element from '../../hoc/withValidateComponent';
 import { connect } from 'react-redux';
 import { logoutTC, loginTC } from '../../Redux/auth-reducer';
 import { Redirect } from 'react-router-dom';
 import styles from './Login.module.css';
+import { createField } from '../common/FormsControls/FormsControl';
 
-const Login = (props) => {
+const Login = ({login, isAuth}) => {
     const onSubmit = (formData) => {
-        props.login(formData.email, formData.password, formData.rememberMe)
+        login(formData.email, formData.password, formData.rememberMe)
     }
 
-    if (props.isAuth)
+    if (isAuth)
         return <Redirect to={'/profile'}/>
 
     return (
@@ -26,20 +26,14 @@ const Login = (props) => {
 
 const Input = Element('input');
 
-const LoginForm = (props) => {
+const LoginForm = ({handleSubmit, error}) => {
     return (
-        <form onSubmit={props.handleSubmit}>
-            <div>
-                <Field component={Input} validate={required} placeholder="Email" name="email"/>
-            </div>
-            <div>
-                <Field component={Input} validate={required} placeholder="Password" name="password" type="password"/>
-            </div>
-            <div>
-                <Field component={Input} type={"checkbox"} name="rememberMe"/> Remember me?
-            </div>
-            {props.error && <div className={styles.error}>
-                 {props.error}
+        <form onSubmit={handleSubmit}>
+            {createField('email', 'Email', [required], Input, '')}
+            {createField('password', 'Password', [required], Input, 'password')}
+            {createField('rememberMe', null, null, Input, 'checkbox', 'Remember me?')}
+            {error && <div className={styles.error}>
+                 {error}
             </div>}
             
             <div>

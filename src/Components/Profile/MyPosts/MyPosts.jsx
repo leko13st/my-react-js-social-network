@@ -5,7 +5,9 @@ import { required, maxLengthCreator } from '../../../util/validators/validators'
 import Element from '../../../hoc/withValidateComponent';
 
 const MyPosts = React.memo((props) => {
-    let PostsItems = props.postData.map(post => <Post id={post.id} key={post.id} text={post.text}/>)
+    let PostsItems = [...props.postData] // [...props.postData] --- необходимо брать копию пропсов, так что reverse() работал всегда одинаково. Иначе props будут меняться постоянно.
+                     .reverse()
+                     .map(post => <Post id={post.id} key={post.id} text={post.text}/>)
 
     const addPost = (data) => {
         props.addPost(data.postText);

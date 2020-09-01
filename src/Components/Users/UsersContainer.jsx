@@ -13,7 +13,7 @@ class UsersContainer extends React.Component{
         this.props.getUsers(this.props.currentPage, this.props.pageSize);
     }
 
-    changePage = (pageId) => {
+    onChangePage = (pageId) => {
         this.props.setCurrentPage(pageId);
         this.props.getUsers(pageId, this.props.pageSize);
     }
@@ -32,23 +32,12 @@ class UsersContainer extends React.Component{
                 currentPage={this.props.currentPage}
                 pageSize={this.props.pageSize}
                 users={this.props.users}
-                changePage={this.changePage}
+                onChangePage={this.onChangePage}
                 followToogle={this.followToogle}
                 followingProgress={this.props.followingProgress}/>
         </>
     }
 }
-
-// const mapStateToProps = (state) => {
-//     return {
-//         users: state.usersPage.users,
-//         pageSize: state.usersPage.pageSize,
-//         totalUsersCount: state.usersPage.totalUsersCount,
-//         currentPage: state.usersPage.currentPage,
-//         isFetching: state.usersPage.isFetching,
-//         followingProgress: state.usersPage.followingProgress
-//     }
-// }
 
 const mapStateToProps = (state) => {
     return {
@@ -60,11 +49,6 @@ const mapStateToProps = (state) => {
         followingProgress: getFollowingProgress(state)
     }
 }
-// const disp = (dispatch) => {
-//     return{
-//         func: (body) => dispatch(funcAC(body))
-//     }
-// }
 
 const mapDispatchToProps = {
     setCurrentPage: setCurrentPageAC,

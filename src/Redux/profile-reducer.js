@@ -53,30 +53,24 @@ export const getUserProfileTC = (userId) => {
     if (!userId)
         userId = 11011;
 
-    return (dispatch) => {
-        profileAPI.getProfile(userId)
-        .then((response) => {
-                dispatch(setUserProfileAC(response.data));
-        })
+    return async dispatch => {
+        let response = await profileAPI.getProfile(userId)
+        dispatch(setUserProfileAC(response.data));
     }
 }
 
 export const getStatusTC = (userId) => {
-    return (dispatch) => {
-        profileAPI.getStatus(userId)
-        .then((response) => {
-            dispatch(setStatusAC(response.data))
-        })
+    return async (dispatch) => {
+        let response = await profileAPI.getStatus(userId)
+        dispatch(setStatusAC(response.data))
     }
 }
 
 export const updateStatusTC = (status) => {
-    return (dispatch) => {
-        profileAPI.updateStatus(status)
-        .then((response) => {
-            if (response.data.resultCode === 0)
-                dispatch(setStatusAC(status))
-        })
+    return async (dispatch) => {
+        let response = await profileAPI.updateStatus(status)
+        if (response.data.resultCode === 0)
+            dispatch(setStatusAC(status))
     }
 }
 

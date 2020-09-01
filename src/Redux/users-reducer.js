@@ -74,36 +74,33 @@ export const toggleIsFetchingAC = (isFetching) => ({type: TOGGLE_IS_FETCHING, is
 export const isFollowChangingAC = (isFetching, userId) => ({type: IS_FOLLOW_CHANGING, isFetching, userId});
 
 export const getUsersThunkCreator = (currentPage, pageSize) => {
-    return (dispatch) => {
+    return async dispatch => {
         dispatch(toggleIsFetchingAC(true))
 
-        userAPI.getUsers(currentPage, pageSize).then(data => {
-            dispatch(toggleIsFetchingAC(false));
-            dispatch(setUsersAC(data.items));
-            dispatch(setTotalUsersCountAC(data.totalCount));
-        })
+        let data = await userAPI.getUsers(currentPage, pageSize);
+        dispatch(toggleIsFetchingAC(false));
+        dispatch(setUsersAC(data.items));
+        dispatch(setTotalUsersCountAC(data.totalCount));
     }
 }
 
 export const followToggleThunkCreator = (userId) => {
-    return (dispatch) => {
+    return async dispatch => {
         dispatch(isFollowChangingAC(true, userId));
-        followAPI.getCheckingFollowed(userId).then(data => {
-            if (!data){
-                followAPI.postFollow(userId).then(data => {
-                    if(data.resultCode === 0)
-                    dispatch(followToggleAC(userId));
-                    dispatch(isFollowChangingAC(false, userId));
-                })
-            }
-            else{
-                followAPI.deleteFollow(userId).then(data => {
-                    if(data.resultCode === 0)
-                    dispatch(followToggleAC(userId));
-                    dispatch(isFollowChangingAC(false, userId));
-                })
-            }
-        })
+        
+        let followed = await followAPI.getCheckingFollowed(userId);
+        if (!followed){
+            let data = await followAPI.postFollow(userId)
+            if(data.resultCode === 0)
+                dispatch(followToggleAC(userId));
+            dispatch(isFollowChangingAC(false, userId));
+        }
+        else{
+            let data = await followAPI.deleteFollow(userId)
+            if(data.resultCode === 0)
+                dispatch(followToggleAC(userId));
+            dispatch(isFollowChangingAC(false, userId));
+        }
     }
 }
 
