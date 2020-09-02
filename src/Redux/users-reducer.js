@@ -44,7 +44,7 @@ const usersReducer = (state = initialState, action) => {
         case SET_TOTAL_USERS_COUNT: {
             return {
                 ...state,
-                totalUsersCount: action.usersCount > 50 ? 50 : action.usersCount
+                totalUsersCount: action.usersCount
             }
         }
         case TOGGLE_IS_FETCHING: {

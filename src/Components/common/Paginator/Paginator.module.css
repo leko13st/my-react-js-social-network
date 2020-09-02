@@ -18,3 +18,10 @@
     color: yellow;
     font-weight: bold;
 }
+
+.pageButton{
+    padding: 3px;
+    margin: 3px;
+    font-size: 110%;
+    cursor: pointer;
+}
