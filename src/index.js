@@ -1,21 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App';
+import { MainApp } from './App';
 import './index.css';
-import store from './Redux/redux-store';
 import * as serviceWorker from './serviceWorker';
-import {Provider} from "react-redux" 
 
 
 //функция перерисовки UI
 //let RerenderApp = (state) => {
   ReactDOM.render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <App store={store}/>
-        </Provider> 
-      </BrowserRouter>,
+      <MainApp />,
     document.getElementById('root')
   );
 //}

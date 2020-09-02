@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, withRouter} from "react-router-dom"
+import {Route, withRouter, BrowserRouter} from "react-router-dom"
 import './App.css';
 import Navbar from './Components/Navbar/Navbar';
 import Messages from './Components/Messages/Messages';
@@ -10,10 +10,11 @@ import UsersContainer from './Components/Users/UsersContainer';
 import ProfileContainer from './Components/Profile/ProfileContainer';
 import HeaderContainer from './Components/Header/HeaderContainer';
 import Login from './Components/Login/Login';
-import { connect } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 import { initializeApp } from './Redux/app-reducer';
 import { compose } from 'redux';
 import Preloader from './Components/common/Preloader/Preloader';
+import store from './Redux/redux-store';
 
 class App extends React.Component {
 
@@ -51,7 +52,15 @@ const mapDispatchToProps = {
   initializeApp: initializeApp
 }
 
-export default compose(
+let AppContainer = compose(
   connect(mapStatetoProps, mapDispatchToProps),
   withRouter
 )(App)
+
+export let MainApp = (props) => {
+  return <BrowserRouter>
+  <Provider store={store}>
+    <AppContainer />
+  </Provider> 
+</BrowserRouter>
+}
