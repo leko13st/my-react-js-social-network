@@ -21,13 +21,13 @@ const Paginator = ({totalUsersCount, pageSize, currentPage, onChangePage}) => {
 
     return (        
         <div className={styles.pages}>
-            {pageBlockNum > 1 && <button className={styles.pageButton} onClick={setPageBlockNum(pageBlockNum - 1)}>Prev</button>}
+            {pageBlockNum > 1 && <button className={styles.pageButton} onClick={() => setPageBlockNum(pageBlockNum - 1)}>Prev</button>}
             {
                 pages
                 .filter(page => confirmPage(page))
-                .map(num => <span onClick={() => onChangePage(num)} className={currentPage === num ? styles.currentPage : undefined}>{num}</span>)
+                .map(num => <span key={num} onClick={() => onChangePage(num)} className={currentPage === num ? styles.currentPage : undefined}>{num}</span>)
             }            
-            {pageBlockCount > pageBlockNum && <button className={styles.pageButton} onClick={setPageBlockNum(pageBlockNum + 1)}>Next</button>}
+            {pageBlockCount > pageBlockNum && <button className={styles.pageButton} onClick={() => setPageBlockNum(pageBlockNum + 1)}>Next</button>}
         </div>
     )
 }

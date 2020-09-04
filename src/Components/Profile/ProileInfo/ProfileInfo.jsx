@@ -3,9 +3,16 @@ import s from './ProfileInfo.module.css';
 import ProfileStatusWithHooks from './ProfileStatusWithHooks';
 
 const ProfileInfo = (props) => {
+
+    const onPhotoChanged = (e) => {
+        if (e.target.files.length)
+            props.savePhoto(e.target.files[0]);
+    }
+    debugger
     return (
         <div className={s.profileInfo}>
-            <img src="https://memepedia.ru/wp-content/uploads/2018/08/papich.jpg" alt="profile-logo" width="100%" height="200px" />
+            <img className={s.avatar} src={props.profile && props.profile.photos.large} alt="profile-logo" width="100%" height="200px" />
+            {props.isOwner && <input type={'file'} onChange={onPhotoChanged}/>}
             <h3>
                 <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus}/>                
             </h3>
