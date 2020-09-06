@@ -35,13 +35,14 @@ export const getAuthUserDataTC = () => async dispatch => {
 }
 
 export const loginTC = (email, password, rememberMe) => async dispatch => {
+    debugger
     let data = await authAPI.login(email, password, rememberMe);
     
     if (data.resultCode === 0){
         dispatch(getAuthUserDataTC());
     }
     else {
-        let message = data.messages.length > 0 ? data.messages[0] : 'Some error';
+        let message = (data.messages.length > 0) ? data.messages[0] : 'Some error';
         dispatch(stopSubmit('login', {_error: message}));
     }
 } 

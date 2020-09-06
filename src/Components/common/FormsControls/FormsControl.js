@@ -5,7 +5,6 @@ import { Field } from 'redux-form';
 export const Textarea = ({input, meta, ...props}) => {
 
     const hasError = meta.touched && meta.error;
-    debugger
 
     return(
         <div className={styles.formControl + " " + (hasError ? styles.error : '')}>
@@ -18,7 +17,6 @@ export const Textarea = ({input, meta, ...props}) => {
 export const Input = ({input, meta, ...props}) => {
 
     const hasError = meta.touched && meta.error;
-    debugger
 
     return(
         <div className={styles.formControl + " " + (hasError ? styles.error : '')}>
@@ -29,11 +27,10 @@ export const Input = ({input, meta, ...props}) => {
 }
 
 export const createField = (name, placeholder, validators, component, type, text = '') => {
-    return(
+    return (
         <div>
-            <Field component={component} validate={validators} placeholder={placeholder} name={name} type={type}/>
+            <Field component={component} validate={validators} placeholder={placeholder} name={name} type={type} />
             {text}
         </div>
-    )
-
+    );
 }

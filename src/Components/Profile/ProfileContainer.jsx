@@ -1,7 +1,7 @@
 import React from 'react';
 import Profile from './Profile';
 import { connect } from 'react-redux';
-import { getUserProfileTC, getStatusTC, updateStatusTC, savePhotoTC } from '../../Redux/profile-reducer';
+import { getUserProfileTC, getStatusTC, updateStatusTC, savePhotoTC, saveProfileTC } from '../../Redux/profile-reducer';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 
@@ -9,7 +9,8 @@ class ProfileContainer extends React.Component{
     
     refreshProfile(){
         let userId = this.props.match.params.userId;
-        if (!userId) userId = this.props.authId;
+        if (!userId) 
+            userId = this.props.authId;
         this.props.getUserProfile(userId);
         this.props.getStatus(userId);
     }
@@ -30,7 +31,9 @@ class ProfileContainer extends React.Component{
             profile={this.props.profile} 
             status={this.props.status} 
             updateStatus={this.props.updateStatus}
-            savePhoto={this.props.savePhoto}/>
+            savePhoto={this.props.savePhoto}
+            saveProfile={this.props.saveProfile}
+        />
     }
 }
 
@@ -46,7 +49,8 @@ const mapDispatchToProps = {
     getUserProfile: getUserProfileTC,
     getStatus: getStatusTC,
     updateStatus: updateStatusTC,
-    savePhoto: savePhotoTC
+    savePhoto: savePhotoTC,
+    saveProfile: saveProfileTC
 }
 
 export default compose(
