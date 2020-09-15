@@ -39,7 +39,6 @@ const ProfileInfo = (props) => {
 export default ProfileInfo;
 
 const ProfileData = ({profile, isOwner, toggleEditMode, error}) => {
-    debugger
     return (
         <div>
             {isOwner && <button onClick={toggleEditMode}>edit</button>}

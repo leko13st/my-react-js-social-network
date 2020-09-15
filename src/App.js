@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import {Route, withRouter, BrowserRouter} from "react-router-dom"
+import {Route, withRouter, BrowserRouter, Switch, Redirect} from "react-router-dom"
 import './App.css';
 import Navbar from './Components/Navbar/Navbar';
 //import Messages from './Components/Messages/Messages';
@@ -11,7 +11,7 @@ import UsersContainer from './Components/Users/UsersContainer';
 import HeaderContainer from './Components/Header/HeaderContainer';
 import Login from './Components/Login/Login';
 import { connect, Provider } from 'react-redux';
-import { initializeApp } from './Redux/app-reducer';
+import { initializeApp } from './Redux/app-reducer.ts';
 import { compose } from 'redux';
 import Preloader from './Components/common/Preloader/Preloader';
 import store from './Redux/redux-store';
@@ -36,13 +36,17 @@ class App extends React.Component {
       <Navbar />
       <div className="app-wrapper-content">
         <Suspense fallback={<div>Loading...</div>}>
-          <Route path="/profile/:userId?" render={() => <ProfileContainer/>} />
-          <Route path="/news" render={() => <News />} />
-          <Route path="/messages" render={() => <Messages/>} />
-          <Route path="/music" render={() => <Music />} />
-          <Route path="/settings" render={() => <Settings />} />
-          <Route path="/users" render={() => <UsersContainer />} />
-          <Route path="/login" render={() => <Login />} />
+          <Switch>
+            <Route path='/' exact><Redirect to='/profile'/></Route>
+            <Route path="/profile/:userId?" render={() => <ProfileContainer/>} />
+            <Route path="/news" render={() => <News />} />
+            <Route path="/messages" render={() => <Messages/>} />
+            <Route path="/music" render={() => <Music />} />
+            <Route path="/settings" render={() => <Settings />} />
+            <Route path="/users" render={() => <UsersContainer />} />
+            <Route path="/login" render={() => <Login />} />
+            <Route path="*" render={() => <div>404 NOT FOUND</div> } />
+          </Switch>
         </Suspense>        
       </div>
     </div>
