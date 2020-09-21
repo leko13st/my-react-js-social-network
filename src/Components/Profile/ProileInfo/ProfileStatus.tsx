@@ -1,6 +1,16 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 
-class ProfileStatus extends React.Component {
+type PropsType = {
+    status: string
+    updateStatus: (status: string) => void
+}
+
+type StateType = {
+    editMode: boolean
+    status: string
+}
+
+class ProfileStatus extends React.Component<PropsType, StateType> {
     
     //ф-я setState перерисовывает класс. компоненту, поэтому если вызвать функцию в render(), где есть setState, произойдёт зацикливание.
     //Поэтому вызывать setState только с условием.
@@ -10,7 +20,7 @@ class ProfileStatus extends React.Component {
         status: this.props.status
     }
     
-    toggleEditMode = (active) => {
+    toggleEditMode = (active: boolean) => {
         this.setState({
             editMode: active
         })
@@ -18,7 +28,7 @@ class ProfileStatus extends React.Component {
             this.props.updateStatus(this.state.status);
     }
 
-    updateLocalStatus = (e) => {
+    updateLocalStatus = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             status: e.currentTarget.value
         })
@@ -30,7 +40,7 @@ class ProfileStatus extends React.Component {
         })
     }
 
-    componentDidUpdate(prevProps, prevState){
+    componentDidUpdate(prevProps: PropsType, prevState: StateType){
         if (prevProps.status !== this.props.status)
             this.setState({
                 status: this.props.status

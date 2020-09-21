@@ -1,13 +1,21 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import s from './ProfileInfo.module.css';
 import ProfileStatusWithHooks from './ProfileStatusWithHooks';
 import ProfileInfoReduxForm from './ProfileInfoForm';
+import { ProfileType } from '../../../types/types';
 
-const ProfileInfo = (props) => {
+type PropsType = {
+    profile: ProfileType
+    isOwner: number
+    updateStatus: () => void
+    savePhoto: (file: object | null) => void
+}
+
+const ProfileInfo: React.FC<PropsType> = (props) => {
 
     const [editMode, setEditMode] = useState(false);
 
-    const onPhotoChanged = (e) => {
+    const onPhotoChanged = (e: ChangeEvent<HTML>) => {
         if (e.target.files.length)
             props.savePhoto(e.target.files[0]);
     }
@@ -38,7 +46,14 @@ const ProfileInfo = (props) => {
 
 export default ProfileInfo;
 
-const ProfileData = ({profile, isOwner, toggleEditMode, error}) => {
+type ProfileDataPropsType = {
+    profile: ProfileType
+    isOwner: number
+    toggleEditMode: () => void
+    error?: any
+}
+
+const ProfileData: React.FC<ProfileDataPropsType> = ({profile, isOwner, toggleEditMode, error}) => {
     return (
         <div>
             {isOwner && <button onClick={toggleEditMode}>edit</button>}
@@ -61,6 +76,11 @@ const ProfileData = ({profile, isOwner, toggleEditMode, error}) => {
     )
 }
 
-export const Contact = ({contactTitle, contactValue}) => {
+type ContactPropsType = {
+    contactTitle: string
+    contactValue: string
+}
+
+export const Contact: React.FC<ContactPropsType> = ({contactTitle, contactValue}) => {
     return <div className={s.contact}><b>{contactTitle}: </b>{contactValue}</div>
 }

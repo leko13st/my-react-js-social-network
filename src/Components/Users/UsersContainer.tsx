@@ -6,19 +6,42 @@ import Preloader from '../common/Preloader/Preloader';
 import withAuthRedirect from '../../hoc/withAuthRedirect';
 import { compose } from 'redux';
 import { getUsersSuper, getPageSize, getCurrentPage, getTotalUsersCount, getIsFetching, getFollowingProgress } from '../../Redux/users-selectors';
+import { UsersType } from '../../types/types';
+import { AppStateType } from '../../Redux/redux-store';
 
-class UsersContainer extends React.Component{
+type StatePropsType = {
+    currentPage: number
+    pageSize: number
+    isFetching: boolean
+    totalUsersCount: number
+    users: Array<UsersType>
+    followingProgress: Array<number>
+}
+
+type DispatchPropsType = {
+    getUsers: (currentPage: number, pageSize: number) => void
+    setCurrentPage: (pageId: number) => void
+    followToogle: (idUser: number) => void
+}
+
+type OwnPropsType = {
+    //Пропсы, проброшенные напрямую (не через connect)
+}
+
+type PropsType = StatePropsType & DispatchPropsType & OwnPropsType
+
+class UsersContainer extends React.Component<PropsType>{
     
     componentWillMount(){
         this.props.getUsers(this.props.currentPage, this.props.pageSize);
     }
 
-    onChangePage = (pageId) => {
+    onChangePage = (pageId: number) => {
         this.props.setCurrentPage(pageId);
         this.props.getUsers(pageId, this.props.pageSize);
     }
 
-    followToogle = (userId) => {
+    followToogle = (userId: number) => {
         this.props.followToogle(userId);
     }
 
@@ -39,7 +62,7 @@ class UsersContainer extends React.Component{
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType): StatePropsType => {
     return {
         users: getUsersSuper(state),
         pageSize: getPageSize(state),
@@ -50,7 +73,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = {
+const mapDispatchToProps: DispatchPropsType = {
     setCurrentPage: setCurrentPageAC,
     followToogle: followToggleThunkCreator,
     getUsers: getUsersThunkCreator
@@ -58,5 +81,6 @@ const mapDispatchToProps = {
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
-    withAuthRedirect
+    //connect<StatePropsType, DispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, mapDispatchToProps) - alternative way!!!
+    //withAuthRedirect
 )(UsersContainer);
