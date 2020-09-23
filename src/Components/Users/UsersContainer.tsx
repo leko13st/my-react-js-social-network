@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
-import {getUsersThunkCreator, followToggleThunkCreator, setCurrentPageAC } from "../../Redux/users-reducer";
+import { actions, followToggleThunkCreator, getUsersThunkCreator } from "../../Redux/users-reducer";
 import Users from "./Users";
 import Preloader from '../common/Preloader/Preloader';
 import withAuthRedirect from '../../hoc/withAuthRedirect';
@@ -74,7 +74,7 @@ const mapStateToProps = (state: AppStateType): StatePropsType => {
 }
 
 const mapDispatchToProps: DispatchPropsType = {
-    setCurrentPage: setCurrentPageAC,
+    setCurrentPage: actions.setCurrentPageAC,
     followToogle: followToggleThunkCreator,
     getUsers: getUsersThunkCreator
 }

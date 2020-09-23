@@ -73,7 +73,7 @@ const mapDispatchToProps = {
     saveProfile: saveProfileTC
 }
 
-export default compose(
+export default compose<React.ComponentType>(
     connect(mapStateToProps, mapDispatchToProps),
     withRouter
 )(ProfileContainer);

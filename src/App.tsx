@@ -11,16 +11,21 @@ import UsersContainer from './Components/Users/UsersContainer';
 import HeaderContainer from './Components/Header/HeaderContainer';
 import Login from './Components/Login/Login';
 import { connect, Provider } from 'react-redux';
-import { initializeApp } from './Redux/app-reducer.ts';
+import { initializeApp } from './Redux/app-reducer';
 import { compose } from 'redux';
 import Preloader from './Components/common/Preloader/Preloader';
-import store from './Redux/redux-store';
+import store, { AppStateType } from './Redux/redux-store';
 
 const ProfileContainer = React.lazy(() => import('./Components/Profile/ProfileContainer'));
 const Messages = React.lazy(() => import('./Components/Messages/Messages'));
 //const UsersContainer = React.lazy(() => import('./Components/Users/UsersContainer'));
 
-class App extends React.Component {
+type AppType = {
+  initialized: boolean
+  initializeApp: () => void
+}
+
+class App extends React.Component<AppType> {
 
   componentDidMount(){
     this.props.initializeApp();
@@ -54,7 +59,7 @@ class App extends React.Component {
   }
 }
 
-const mapStatetoProps = (state) => ({
+const mapStatetoProps = (state: AppStateType) => ({
   initialized: state.app.initialized
 })
 
@@ -62,15 +67,15 @@ const mapDispatchToProps = {
   initializeApp: initializeApp
 }
 
-let AppContainer = compose(
+let AppContainer = compose<React.ComponentType>(
   connect(mapStatetoProps, mapDispatchToProps),
   withRouter
 )(App)
 
-export let MainApp = (props) => {
+export const MainApp: React.FC = () => {
   return <BrowserRouter>
-  <Provider store={store}>
-    <AppContainer />
-  </Provider> 
-</BrowserRouter>
+    <Provider store={store}>
+      <AppContainer />
+    </Provider> 
+  </BrowserRouter>
 }
