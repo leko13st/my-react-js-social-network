@@ -1,10 +1,10 @@
 import React from 'react';
-import { UsersType } from '../../types/types';
+import {UserType } from '../../types/types';
 import Paginator from '../common/Paginator/Paginator';
 import User from './User';
 
 type PropsType = {
-    users: Array<UsersType>
+    users: Array<UserType>
     totalUsersCount: number
     pageSize: number
     currentPage: number
@@ -22,8 +22,8 @@ let Users: React.FC<PropsType> = (props) => {
                 props.users.map(user => (
                     <User key={user.id} user={user} followingProgress={props.followingProgress} followToogle={props.followToogle}/>
                 ))
-            }        
-        </div>   
+            }
+        </div>
     )
 }
 

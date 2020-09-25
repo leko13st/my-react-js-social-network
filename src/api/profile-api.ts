@@ -1,4 +1,3 @@
-import { ResultCodeEnum } from './resultCodesAPI';
 import { ProfileType } from './../types/types';
 import { instance, ResponseType } from './api';
 

@@ -24,12 +24,13 @@ type MapStateType = {
 
 //Обёртка функциональной компоненты в HOC 
 const withAuthRedirect = <WCP extends {}>(WrappedComponent: React.ComponentType<WCP>) => {
-    const RedirectComponent = (props: WCP & MapStateType) => {
+    const RedirectComponent = (props: MapStateType) => {
 
         let {isAuth, ...restProps} = props
+        
 
         if (!props.isAuth) return <Redirect to={'/login'} />
-        return <WrappedComponent {...props} />
+        return <WrappedComponent {...restProps as WCP} />
     }
 
     return connect(mapStateToPropsForRedirect)(RedirectComponent);

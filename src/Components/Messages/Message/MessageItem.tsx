@@ -1,23 +1,9 @@
 import React from 'react';
 import s from './../Messages.module.css';
-import { reduxForm, Field, InjectedFormProps } from 'redux-form';
+import { reduxForm, InjectedFormProps } from 'redux-form';
 import { required, maxLengthCreator } from '../../../util/validators/validators';
 import Element from '../../../hoc/withValidateComponent';
 import { createField } from '../../common/FormsControls/FormsControl';
-
-type MessageType = {
-    id: number
-    text: string
-}
-
-type MessagePropsType = {
-    messageData: Array<MessageType>
-    addMessage: (messageText: string) => void
-}
-
-type MessageFormValuesType = {
-    newMessage: string
-}
 
 const Message: React.FC<MessageType> = (props) => {
     return <div className={s.message}>{props.text}</div>
@@ -42,9 +28,6 @@ const MessageItem: React.FC<MessagePropsType> = (props) => {
 const Textarea = Element('textarea');
 const maxLength = maxLengthCreator(300);
 
-type NewMessageFormValuesKeys = Extract<keyof MessageFormValuesType, string>
-type PropsType = {}
-
 const MessageForm: React.FC<InjectedFormProps<MessageFormValuesType, PropsType> & PropsType> = (props) => {
     return(
         <form onSubmit={props.handleSubmit}>
@@ -58,3 +41,20 @@ const MessageReduxForm = reduxForm<MessageFormValuesType>({
 })(MessageForm)
 
 export default MessageItem;
+
+type NewMessageFormValuesKeys = Extract<keyof MessageFormValuesType, string>
+type PropsType = {}
+
+type MessageType = {
+    id: number
+    text: string
+}
+
+type MessagePropsType = {
+    messageData: Array<MessageType>
+    addMessage: (messageText: string) => void
+}
+
+type MessageFormValuesType = {
+    newMessage: string
+}

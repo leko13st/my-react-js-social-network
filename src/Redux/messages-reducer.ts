@@ -2,7 +2,7 @@ import { InferActionsTypes } from "./redux-store";
 
 const ADD_MESSAGE = 'ADD-MESSAGE';
 
-type DialogType = {
+export type DialogType = {
     id: number
     name: string
 }

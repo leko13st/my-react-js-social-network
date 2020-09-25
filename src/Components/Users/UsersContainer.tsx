@@ -3,10 +3,9 @@ import { connect } from "react-redux";
 import { actions, followToggleThunkCreator, getUsersThunkCreator } from "../../Redux/users-reducer";
 import Users from "./Users";
 import Preloader from '../common/Preloader/Preloader';
-import withAuthRedirect from '../../hoc/withAuthRedirect';
 import { compose } from 'redux';
 import { getUsersSuper, getPageSize, getCurrentPage, getTotalUsersCount, getIsFetching, getFollowingProgress } from '../../Redux/users-selectors';
-import { UsersType } from '../../types/types';
+import { UserType } from '../../types/types';
 import { AppStateType } from '../../Redux/redux-store';
 
 type StatePropsType = {
@@ -14,7 +13,7 @@ type StatePropsType = {
     pageSize: number
     isFetching: boolean
     totalUsersCount: number
-    users: Array<UsersType>
+    users: Array<UserType>
     followingProgress: Array<number>
 }
 

@@ -2,25 +2,29 @@ import React, { ChangeEvent, useState } from 'react';
 import s from './ProfileInfo.module.css';
 import ProfileStatusWithHooks from './ProfileStatusWithHooks';
 import ProfileInfoReduxForm from './ProfileInfoForm';
-import { ProfileType } from '../../../types/types';
+import { ProfileType, ContactsType } from '../../../types/types';
+import userPhoto from './../../../assets/images/user-ava.jpg'
 
 type PropsType = {
     profile: ProfileType
-    isOwner: number
-    updateStatus: () => void
-    savePhoto: (file: object | null) => void
+    isOwner: boolean
+    status: string
+    updateStatus: (status: string) => void
+    savePhoto: (file: File) => void
+    saveProfile: (formData: ProfileType) => Promise<any>
 }
 
 const ProfileInfo: React.FC<PropsType> = (props) => {
 
     const [editMode, setEditMode] = useState(false);
 
-    const onPhotoChanged = (e: ChangeEvent<HTML>) => {
-        if (e.target.files.length)
+    const onPhotoChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        //if (e.target.files && e.target.files.length
+        if (e.target.files?.length)
             props.savePhoto(e.target.files[0]);
     }
 
-    const onSubmit = (formData) => {
+    const onSubmit = (formData: ProfileType) => {
         props.saveProfile(formData).then(() => {
             setEditMode(false);
         });
@@ -29,7 +33,7 @@ const ProfileInfo: React.FC<PropsType> = (props) => {
     if (props.profile)
         return (
             <div className={s.profileInfo}>
-                <img className={s.avatar} src={props.profile && props.profile.photos.large} alt="profile-logo" width="100%" height="200px" />
+                <img className={s.avatar} src={props.profile.photos.large || userPhoto} alt="profile-logo" width="100%" height="200px" />
                 {props.isOwner && <input type={'file'} onChange={onPhotoChanged}/>}
                 <h3>
                     <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus}/>                
@@ -48,12 +52,11 @@ export default ProfileInfo;
 
 type ProfileDataPropsType = {
     profile: ProfileType
-    isOwner: number
+    isOwner: boolean
     toggleEditMode: () => void
-    error?: any
 }
 
-const ProfileData: React.FC<ProfileDataPropsType> = ({profile, isOwner, toggleEditMode, error}) => {
+const ProfileData: React.FC<ProfileDataPropsType> = ({profile, isOwner, toggleEditMode}) => {
     return (
         <div>
             {isOwner && <button onClick={toggleEditMode}>edit</button>}
@@ -70,7 +73,7 @@ const ProfileData: React.FC<ProfileDataPropsType> = ({profile, isOwner, toggleEd
                 About me: <b>{profile.aboutMe}</b>
             </div>
             <div>
-                <b>Contacts:</b> {Object.keys(profile.contacts).map(key => <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]}/>)}
+                <b>Contacts:</b> {Object.keys(profile.contacts).map(key => <Contact key={key} contactTitle={key} contactValue={profile.contacts[key as keyof ContactsType]}/>)}
             </div>
         </div>
     )

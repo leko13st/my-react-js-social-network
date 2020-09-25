@@ -38,7 +38,7 @@ export const Input: React.FC<WrappedFieldProps> = ({input, meta: {touched, error
     )
 }
 
-export function createField<LoginDataType extends string>(name: LoginDataType, placeholder: string | undefined, validators: Array<ValidatorFieldType> | null, component: React.FC<ElementType>, type: string, text = '') {
+export function createField<LoginDataType extends string>(name: LoginDataType, placeholder: string | undefined, validators: Array<ValidatorFieldType> | null, component: React.FC<WrappedFieldProps>, type: string, text = '') {
     return (
         <div>
             <Field component={component} validate={validators} placeholder={placeholder} name={name} type={type} />
@@ -46,3 +46,5 @@ export function createField<LoginDataType extends string>(name: LoginDataType, p
         </div>
     );
 }
+
+export type GetStringKeys<T> = Extract<keyof T, string>

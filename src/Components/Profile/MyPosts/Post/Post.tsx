@@ -1,7 +1,8 @@
 import React from 'react';
+import { PostDataType } from '../../../../types/types';
 import p from './Post.module.css';
 
-const Post = (props) => {
+const Post: React.FC<PostDataType> = (props) => {
     return (
         <div className={p.post}>
             <div>

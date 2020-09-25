@@ -3,7 +3,7 @@ export type PostDataType = {
     text: string
 }
 
-type ContactsType = {
+export type ContactsType = {
     github: string
     vk: string
     facebook: string

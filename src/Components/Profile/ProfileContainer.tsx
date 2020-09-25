@@ -2,7 +2,7 @@ import React from 'react';
 import Profile from './Profile';
 import { connect } from 'react-redux';
 import { getUserProfileTC, getStatusTC, updateStatusTC, savePhotoTC, saveProfileTC } from '../../Redux/profile-reducer';
-import { withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { AppStateType } from '../../Redux/redux-store';
 import { ProfileType } from '../../types/types';
@@ -15,21 +15,21 @@ type StateType = {
 
     getUserProfile: (userId: number) => void
     getStatus: (userId: number) => void
-    updateStatus: () => void
-    savePhoto: () => void
-    saveProfile: () => void
+    updateStatus: (status: string) => void
+    savePhoto: (file: File) => void
+    saveProfile: (profile: ProfileType) => Promise<any>
 }
 
-type DispatchType = {
-
+type PathParams = {
+    userId: string
 }
 
-type PropsType = StateType & DispatchType;
+type PropsType = StateType & RouteComponentProps<PathParams>;
 
 class ProfileContainer extends React.Component<PropsType>{
     
     refreshProfile(){
-        let userId = this.props.match.params.userId;
+        let userId = +this.props.match.params.userId;
         if (!userId) 
             userId = this.props.authId;
         this.props.getUserProfile(userId);
