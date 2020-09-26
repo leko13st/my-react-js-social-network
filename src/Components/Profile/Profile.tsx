@@ -5,7 +5,7 @@ import MyPostsContainer from './MyPosts/MyPostsContainer';
 import { ProfileType } from '../../types/types';
 
 type PropsType = {
-    profile: ProfileType
+    profile: ProfileType | null
     isOwner: boolean
     status: string
     updateStatus: (status: string) => void

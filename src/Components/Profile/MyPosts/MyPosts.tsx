@@ -7,12 +7,15 @@ import styles from './MyPosts.module.css';
 import { createField, GetStringKeys } from '../../common/FormsControls/FormsControl';
 import { PostDataType } from '../../../types/types';
 
-type MyPostsType = {
+export type MyPostsStateType = {
     postData: Array<PostDataType>
+}
+
+export type MyPostsDispatchType = {
     addPost: (postText: string) => void
 }
 
-const MyPosts: React.FC<MyPostsType> = (props) => {
+const MyPosts: React.FC<MyPostsStateType & MyPostsDispatchType> = (props) => {
     let PostsItems = [...props.postData] // [...props.postData] --- необходимо брать копию пропсов, так что reverse() работал всегда одинаково. Иначе props будут меняться постоянно.
                      .reverse()
                      .map(post => <Post id={post.id} key={post.id} text={post.text}/>)

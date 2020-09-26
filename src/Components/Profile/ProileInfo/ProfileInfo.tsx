@@ -6,7 +6,7 @@ import { ProfileType, ContactsType } from '../../../types/types';
 import userPhoto from './../../../assets/images/user-ava.jpg'
 
 type PropsType = {
-    profile: ProfileType
+    profile: ProfileType | null
     isOwner: boolean
     status: string
     updateStatus: (status: string) => void

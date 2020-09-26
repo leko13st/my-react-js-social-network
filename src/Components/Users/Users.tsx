@@ -14,11 +14,11 @@ type PropsType = {
 }
 
 let Users: React.FC<PropsType> = (props) => {
-
     return (
         <div>
             <Paginator totalUsersCount={props.totalUsersCount} pageSize={props.pageSize} currentPage={props.currentPage} onChangePage={props.onChangePage}/>        
             {
+                props.users && 
                 props.users.map(user => (
                     <User key={user.id} user={user} followingProgress={props.followingProgress} followToogle={props.followToogle}/>
                 ))
