@@ -10,10 +10,15 @@ let initialState = {
     totalUsersCount: 10,
     currentPage: 1,
     isFetching: true,
-    followingProgress: [] as Array<number>
+    followingProgress: [] as Array<number>,
+    filter: {
+        term: '',
+        friend: null as null | boolean
+    }
 }
 
-type InitialStateType = typeof initialState
+export type InitialStateType = typeof initialState
+export type FilterType = typeof initialState.filter
 
 const usersReducer = (state = initialState, action: ActionTypes): InitialStateType => {
     switch (action.type){
@@ -60,6 +65,12 @@ const usersReducer = (state = initialState, action: ActionTypes): InitialStateTy
                 : [...state.followingProgress.filter(id => id !== action.userId)],
             }
         }
+        case 'SET_FILTER':{
+            return {
+                ...state,
+                filter: action.payload
+            }
+        }
         default:
             return state;
     }
@@ -72,7 +83,8 @@ export const actions = {
     setCurrentPageAC: (pageId: number) => ({type: 'SET_CURRENT_PAGE', pageId} as const),
     setTotalUsersCountAC: (usersCount: number) => ({type: 'SET_TOTAL_USERS_COUNT', usersCount} as const),
     toggleIsFetchingAC: (isFetching: boolean) => ({type: 'TOGGLE_IS_FETCHING', isFetching} as const),
-    isFollowChangingAC: (isFetching: boolean, userId: number) => ({type: 'IS_FOLLOW_CHANGING', isFetching, userId} as const)
+    isFollowChangingAC: (isFetching: boolean, userId: number) => ({type: 'IS_FOLLOW_CHANGING', isFetching, userId} as const),
+    setFilterAC: (filter: FilterType) => ({type: 'SET_FILTER', payload: filter} as const)
 }
 
 //type GetStateType = () => AppStateType          В данном случае не обязательно: пример как использовать типизацию для GetState в thunk
@@ -80,13 +92,15 @@ type DispatchType = Dispatch<ActionTypes>
 type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>
 
 //1-ый способ типизации Thunk (общая типизация thunk'а через ThunkAction)
-export const getUsersThunkCreator = (currentPage: number, pageSize: number): ThunkType => {
+export const getUsersThunkCreator = (currentPage: number, pageSize: number, filter: FilterType): ThunkType => {
     return async (dispatch) => {
         dispatch(actions.toggleIsFetchingAC(true))
+        //dispatch(actions.setCurrentPageAC(currentPage))
+        dispatch(actions.setFilterAC(filter))
 
-        let data = await userAPI.getUsers(currentPage, pageSize);
+        let data = await userAPI.getUsers(currentPage, pageSize, filter.term, filter.friend);
         dispatch(actions.toggleIsFetchingAC(false));
-        dispatch(actions.setUsersAC(data.users));
+        dispatch(actions.setUsersAC(data.items));
         dispatch(actions.setTotalUsersCountAC(data.totalCount));
     }
 }
@@ -97,19 +111,16 @@ export const followToggleThunkCreator = (userId: number) => {
         dispatch(actions.isFollowChangingAC(true, userId));
         
         let followed = await followAPI.getCheckingFollowed(userId);
-        if (!followed){
-            let data = await followAPI.postFollow(userId)
-            if(data.resultCode === 0)
-                dispatch(actions.followToggleAC(userId));
-            dispatch(actions.isFollowChangingAC(false, userId));
-        }
-        else{
-            let data = await followAPI.deleteFollow(userId)
-            if(data.resultCode === 0)
-                dispatch(actions.followToggleAC(userId));
-            dispatch(actions.isFollowChangingAC(false, userId));
-        }
+        let data;
+        if (!followed)
+            data = await followAPI.postFollow(userId)
+        else
+            data = await followAPI.deleteFollow(userId)
+
+        if(data.resultCode === 0)
+            dispatch(actions.followToggleAC(userId));
+        dispatch(actions.isFollowChangingAC(false, userId));
     }
 }
 
-export default usersReducer;
+export default usersReducer

@@ -30,7 +30,7 @@ export type ProfileType = {
 }
 
 export type UsersType = {
-    users: Array<UserType>
+    items: Array<UserType>
     totalCount: number
     error: string | null
 }
