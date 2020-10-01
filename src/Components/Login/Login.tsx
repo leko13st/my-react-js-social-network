@@ -2,8 +2,8 @@ import React from 'react';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import { required } from '../../util/validators/validators';
 import Element from '../../hoc/withValidateComponent';
-import { connect } from 'react-redux';
-import { logoutTC, loginTC } from '../../Redux/auth-reducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginTC } from '../../Redux/auth-reducer';
 import { Redirect } from 'react-router-dom';
 import styles from './Login.module.css';
 import { createField } from '../common/FormsControls/FormsControl';
@@ -18,21 +18,19 @@ export type LoginDataType = {
 
 export type LoginDataTypeKeys = Extract<keyof LoginDataType, string>
 
-type StateToPropsType = {
-    isAuth: boolean
-    captchaUrl: string | null
-}
-type DispatchToPropsType = {
-    login: (email: string, password: string, rememberMe: boolean, captcha: string) => void
-}
-
 type OwnPropsType = {
     captchaUrl: string | null
 }
 
-const Login: React.FC<StateToPropsType & DispatchToPropsType> = ({isAuth, captchaUrl, login}) => {
+export const LoginPage = () => {
+    
+    const captchaUrl = useSelector((state: AppStateType) => state.auth.captchaUrl)
+    const isAuth = useSelector((state: AppStateType) => state.auth.isAuth)
+
+    const dispatch = useDispatch()
+
     const onSubmit = (formData: LoginDataType) => {
-        login(formData.email, formData.password, formData.rememberMe, formData.captcha)
+        dispatch(loginTC(formData.email, formData.password, formData.rememberMe, formData.captcha))
     }
 
     if (isAuth)
@@ -72,15 +70,3 @@ const LoginForm: React.FC<InjectedFormProps<LoginDataType, OwnPropsType> & OwnPr
 const LoginReduxForm = reduxForm<LoginDataType, OwnPropsType>({
     form: 'login'
 })(LoginForm)
-
-const mapStateToProps = (state: AppStateType): StateToPropsType => ({
-        isAuth: state.auth.isAuth,
-        captchaUrl: state.auth.captchaUrl
-})
-
-const mapDispatchToProps = {
-    login: loginTC,
-    logout: logoutTC
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);

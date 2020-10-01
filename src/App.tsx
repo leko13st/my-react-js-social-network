@@ -6,10 +6,10 @@ import Navbar from './Components/Navbar/Navbar';
 import News from './Components/News/News';
 import Settings from './Components/Settings/Settings';
 import Music from './Components/Music/Music';
-import UsersContainer from './Components/Users/UsersContainer';
+import { UserPage } from './Components/Users/UsersContainer';
 // import ProfileContainer from './Components/Profile/ProfileContainer';
 import HeaderContainer from './Components/Header/HeaderContainer';
-import Login from './Components/Login/Login';
+import { LoginPage } from './Components/Login/Login';
 import { connect, Provider } from 'react-redux';
 import { initializeApp } from './Redux/app-reducer';
 import { compose } from 'redux';
@@ -48,8 +48,8 @@ class App extends React.Component<AppType> {
             <Route path="/messages" render={() => <Messages/>} />
             <Route path="/music" render={() => <Music />} />
             <Route path="/settings" render={() => <Settings />} />
-            <Route path="/users" render={() => <UsersContainer />} />
-            <Route path="/login" render={() => <Login />} />
+            <Route path="/users" render={() => <UserPage />} />
+            <Route path="/login" render={() => <LoginPage />} />
             <Route path="*" render={() => <div>404 NOT FOUND</div> } />
           </Switch>
         </Suspense>        
