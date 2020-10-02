@@ -6,7 +6,7 @@ import Navbar from './Components/Navbar/Navbar';
 import News from './Components/News/News';
 import Settings from './Components/Settings/Settings';
 import Music from './Components/Music/Music';
-import { UserPage } from './Components/Users/UsersContainer';
+import { UserPage } from './Components/Users/UsersPage';
 // import ProfileContainer from './Components/Profile/ProfileContainer';
 import HeaderContainer from './Components/Header/HeaderContainer';
 import { LoginPage } from './Components/Login/Login';
